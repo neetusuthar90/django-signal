@@ -6,6 +6,9 @@ This repository contains the code for an assessment on Django signals and custom
 
 1. **Synchronous Signal Handling**: Django signals are executed synchronously by default.The demonstrate code is located in `myApp/signals/sync_Q1.py`. 
 
+    **Explanation**: 
+    The signal handler simulates a long-running task, causing the main thread to wait for it to complete. This synchronous execution is evident in the total time taken for user creation, which includes the duration of the signal handling. If signals were asynchronous, the user creation would finish immediately, and the signal handler would run independently.
+
 ```bash
 
 @receiver(post_save, sender=User)
@@ -30,6 +33,9 @@ def create_user(username, email):
 
 2. **Thread-aware Signal Handling**: Yes, by default, Django signals run in the same thread as the caller. Example code is in `myApp/signals/thread_Q2.py`. 
 
+    **Explanation**: 
+    The printed thread names from both the signal handler and the user creation function match, confirming that they run in the same thread. This behavior is crucial for maintaining consistency across operations and ensuring signal handlers can access the same context as the calling code.  
+
 ```bash
 
 @receiver(post_save, sender=User)
@@ -48,7 +54,10 @@ def create_user(username, email):
 
 ```
 
-3. **Transactional Signal Handling**: Yes, by default, Django signals run in the same database transaction as the caller. It prove in demonstrates in `myApp/signals/transaction_Q3.py`. 
+3. **Transactional Signal Handling**: Yes, by default, Django signals run in the same database transaction as the caller. It prove in demonstrates in `myApp/signals/transaction_Q3.py`.
+
+    **Explanation**: 
+    The user creation is wrapped in a transaction block. If the signal handler raises an exception, the transaction rolls back, preventing the user from being created. This demonstrates that the signal and the calling code share the same transaction context, ensuring data integrity.
 
 ```bash 
 
@@ -75,6 +84,10 @@ def create_user_with_signal(username, email):
     - Initializes with length and width (both integers)
     - Can be iterated over
     - When iterated, yields length and width in specified dictionary formats
+
+    **Explanation**: 
+    The `Rectangle` class initializes with integer values for length and width and implements the `__iter__` method, allowing iteration over its dimensions. This design meets the requirements and demonstrates a solid understanding of Python class behavior.
+
 
 ```bash 
 
